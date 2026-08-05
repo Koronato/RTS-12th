@@ -1,0 +1,49 @@
+[gd_scene format=3 uid="uid://bq642ny1586gc"]
+
+[ext_resource type="Texture2D" uid="uid://bkq763ytabmmp" path="res://assets/logo.png" id="1_yqeox"]
+
+[sub_resource type="GDScript" id="GDScript_4h3mk"]
+script/source = "extends Control
+
+#UI大小适配的 这将会很卡
+func _enter_tree() -> void:
+	self.size = get_viewport().get_visible_rect().size
+	get_viewport().size_changed.connect(_on_viewport_size_changed)
+func _on_viewport_size_changed() -> void:
+	self.size = get_viewport().get_visible_rect().size
+"
+
+[node name="Node2D" type="Node2D" unique_id=432792055]
+
+[node name="background" type="Parallax2D" parent="." unique_id=1598482709]
+
+[node name="pic" type="Sprite2D" parent="background" unique_id=379375747]
+
+[node name="UI" type="Control" parent="." unique_id=1686852437]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 1280.0
+offset_bottom = 720.0
+script = SubResource("GDScript_4h3mk")
+
+[node name="Menu" type="Panel" parent="UI" unique_id=1451371421]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.4
+anchor_right = 0.6
+anchor_bottom = 1.0000001
+grow_horizontal = 2
+grow_vertical = 2
+metadata/_edit_use_anchors_ = true
+
+[node name="Logo" type="TextureRect" parent="UI/Menu" unique_id=1687988355]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = -0.5
+anchor_right = 1.5000001
+anchor_bottom = 0.178
+offset_right = -3.0517578e-05
+offset_bottom = -0.16001892
+texture = ExtResource("1_yqeox")
+expand_mode = 3
+stretch_mode = 6
