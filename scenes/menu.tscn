@@ -1,5 +1,6 @@
 [gd_scene format=3 uid="uid://bq642ny1586gc"]
 
+[ext_resource type="Theme" uid="uid://c35suisqbybdf" path="res://assets/themes/normal.tres" id="1_vjb58"]
 [ext_resource type="Texture2D" uid="uid://bkq763ytabmmp" path="res://assets/logo.png" id="1_yqeox"]
 
 [sub_resource type="GDScript" id="GDScript_4h3mk"]
@@ -13,6 +14,11 @@ func _on_viewport_size_changed() -> void:
 	self.size = get_viewport().get_visible_rect().size
 "
 
+[sub_resource type="ButtonGroup" id="ButtonGroup_con2f"]
+allow_unpress = true
+
+[sub_resource type="Theme" id="Theme_yqeox"]
+
 [node name="Node2D" type="Node2D" unique_id=432792055]
 
 [node name="background" type="Parallax2D" parent="." unique_id=1598482709]
@@ -24,6 +30,7 @@ layout_mode = 3
 anchors_preset = 0
 offset_right = 1280.0
 offset_bottom = 720.0
+theme = ExtResource("1_vjb58")
 script = SubResource("GDScript_4h3mk")
 
 [node name="Menu" type="Panel" parent="UI" unique_id=1451371421]
@@ -36,14 +43,47 @@ grow_horizontal = 2
 grow_vertical = 2
 metadata/_edit_use_anchors_ = true
 
-[node name="Logo" type="TextureRect" parent="UI/Menu" unique_id=1687988355]
+[node name="1" type="Button" parent="UI/Menu" unique_id=907795619]
+layout_mode = 0
+offset_top = 256.0
+offset_right = 256.0
+offset_bottom = 304.0
+toggle_mode = true
+button_group = SubResource("ButtonGroup_con2f")
+text = "TEXT!!"
+
+[node name="2" type="Button" parent="UI/Menu" unique_id=391294560]
+layout_mode = 0
+offset_top = 320.0
+offset_right = 256.0
+offset_bottom = 368.0
+toggle_mode = true
+button_group = SubResource("ButtonGroup_con2f")
+text = "TEXT!!"
+
+[node name="3" type="Button" parent="UI/Menu" unique_id=1462102064]
+layout_mode = 0
+offset_top = 384.0
+offset_right = 256.0
+offset_bottom = 432.0
+theme = SubResource("Theme_yqeox")
+toggle_mode = true
+button_group = SubResource("ButtonGroup_con2f")
+text = "TEXT!!"
+
+[node name="Logo" type="TextureRect" parent="UI" unique_id=1687988355]
 layout_mode = 1
 anchors_preset = -1
-anchor_left = -0.5
-anchor_right = 1.5000001
-anchor_bottom = 0.178
-offset_right = -3.0517578e-05
-offset_bottom = -0.16001892
+anchor_left = 0.319
+anchor_right = 0.675
+anchor_bottom = 0.18900001
+offset_left = -0.32000732
+offset_bottom = -0.08000183
 texture = ExtResource("1_yqeox")
 expand_mode = 3
 stretch_mode = 6
+
+[node name="VBoxContainer" type="VBoxContainer" parent="UI" unique_id=1080673796]
+layout_mode = 0
+offset_right = 1280.0
+offset_bottom = 720.0
