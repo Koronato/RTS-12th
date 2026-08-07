@@ -194,6 +194,7 @@ corner_detail = 6
 
 [resource]
 default_font = ExtResource("1_cubfm")
+Button/font_sizes/font_size = 20
 Button/styles/focus = SubResource("StyleBoxFlat_j18o6")
 Button/styles/hover = SubResource("StyleBoxFlat_yag4q")
 Button/styles/normal = SubResource("StyleBoxFlat_lj8fn")

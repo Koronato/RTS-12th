@@ -1,0 +1,18 @@
+[gd_scene format=3 uid="uid://dhagaxbnmx6sr"]
+
+[ext_resource type="Theme" uid="uid://c35suisqbybdf" path="res://assets/themes/normal.tres" id="1_4hqgu"]
+
+[node name="Start" type="Control" unique_id=894800251]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_4hqgu")
+
+[node name="background" type="Panel" parent="." unique_id=1377350316]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
