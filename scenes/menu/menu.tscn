@@ -86,6 +86,14 @@ func _on_aim_button_pressed(toggle:bool) -> void:
 		t.tween_property(self,\"modulate:a\",1,0.3)
 "
 
+[sub_resource type="GDScript" id="GDScript_sowkg"]
+script/source = "extends Button
+
+
+func _on_pressed() -> void:
+	get_node(\"%Start\").visible = true
+"
+
 [node name="Node2D" type="Node2D" unique_id=432792055]
 
 [node name="background" type="Parallax2D" parent="." unique_id=1598482709]
@@ -176,6 +184,14 @@ offset_right = 256.0
 offset_bottom = 48.0
 text = "Start test"
 
+[node name="Button2" type="Button" parent="UI/CenterContainer/HBoxContainer/Main/Submenu1" unique_id=1146382437]
+layout_mode = 0
+offset_top = 64.0
+offset_right = 256.0
+offset_bottom = 112.0
+text = "Map Gen"
+script = SubResource("GDScript_sowkg")
+
 [node name="Submenu2" type="Control" parent="UI/CenterContainer/HBoxContainer/Main" unique_id=177113047 node_paths=PackedStringArray("aim_button")]
 visible = false
 anchors_preset = 0
@@ -211,6 +227,7 @@ offset_bottom = 48.0
 text = "3"
 
 [node name="Start" parent="UI" unique_id=894800251 instance=ExtResource("3_e0arn")]
+unique_name_in_owner = true
 visible = false
 z_index = 2
 layout_mode = 1
@@ -218,3 +235,4 @@ layout_mode = 1
 [connection signal="toggled" from="UI/CenterContainer/HBoxContainer/Main/Menu/1" to="UI/CenterContainer/HBoxContainer/Main" method="_on_size_changed"]
 [connection signal="toggled" from="UI/CenterContainer/HBoxContainer/Main/Menu/2" to="UI/CenterContainer/HBoxContainer/Main" method="_on_size_changed"]
 [connection signal="toggled" from="UI/CenterContainer/HBoxContainer/Main/Menu/3" to="UI/CenterContainer/HBoxContainer/Main" method="_on_size_changed"]
+[connection signal="pressed" from="UI/CenterContainer/HBoxContainer/Main/Submenu1/Button2" to="UI/CenterContainer/HBoxContainer/Main/Submenu1/Button2" method="_on_pressed"]

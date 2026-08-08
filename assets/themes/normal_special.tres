@@ -1,0 +1,63 @@
+[gd_resource type="Theme" format=3 uid="uid://dfq7fi8qcyimt"]
+
+[ext_resource type="FontFile" uid="uid://es0gb33224ns" path="res://assets/fonts/HarmonyOS_Sans_SC_Light.ttf" id="1_1sqm0"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_1sqm0"]
+content_margin_left = 4.0
+content_margin_top = 4.0
+content_margin_right = 4.0
+content_margin_bottom = 4.0
+bg_color = Color(1, 1, 1, 0.06666667)
+border_width_bottom = 2
+border_color = Color(0.24705882, 0.47843137, 0.58431375, 1)
+corner_detail = 5
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_cwyj4"]
+content_margin_left = 4.0
+content_margin_top = 4.0
+content_margin_right = 4.0
+content_margin_bottom = 4.0
+bg_color = Color(1, 1, 1, 0.06666667)
+border_width_bottom = 2
+border_color = Color(0.24705882, 0.47843137, 0.58431375, 1)
+corner_detail = 5
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_085ph"]
+content_margin_left = 4.0
+content_margin_top = 4.0
+content_margin_right = 4.0
+content_margin_bottom = 4.0
+bg_color = Color(0.1, 0.1, 0.1, 0)
+border_width_bottom = 2
+border_color = Color(0.15686275, 0.3764706, 0.46666667, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_7app1"]
+content_margin_left = 4.0
+content_margin_top = 4.0
+content_margin_right = 4.0
+content_margin_bottom = 4.0
+bg_color = Color(0, 0, 0, 0.6)
+border_width_bottom = 2
+border_color = Color(0.101960786, 0.2784314, 0.34901962, 1)
+corner_detail = 5
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_q4vdk"]
+content_margin_left = 0.0
+content_margin_top = 0.0
+content_margin_right = 0.0
+content_margin_bottom = 0.0
+bg_color = Color(0.1, 0.1, 0.1, 0)
+border_width_left = 5
+border_color = Color(0.09803922, 0.3137255, 0.4, 1)
+corner_radius_top_left = 3
+corner_radius_bottom_left = 3
+corner_detail = 5
+
+[resource]
+default_font = ExtResource("1_1sqm0")
+Button/styles/focus = SubResource("StyleBoxFlat_1sqm0")
+Button/styles/hover = SubResource("StyleBoxFlat_cwyj4")
+Button/styles/normal = SubResource("StyleBoxFlat_085ph")
+Button/styles/pressed = SubResource("StyleBoxFlat_7app1")
+Label/font_sizes/font_size = 16
+Panel/styles/panel = SubResource("StyleBoxFlat_q4vdk")
