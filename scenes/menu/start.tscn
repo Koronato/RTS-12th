@@ -2,6 +2,8 @@
 
 [ext_resource type="FontFile" uid="uid://es0gb33224ns" path="res://assets/fonts/HarmonyOS_Sans_SC_Light.ttf" id="1_ci5k1"]
 [ext_resource type="FontFile" uid="uid://cxcciuexnp8xg" path="res://assets/fonts/HarmonyOS_Sans_SC_Black.ttf" id="2_ci5k1"]
+[ext_resource type="Theme" uid="uid://c35suisqbybdf" path="res://assets/themes/normal.tres" id="3_le6wa"]
+[ext_resource type="Theme" uid="uid://dfq7fi8qcyimt" path="res://assets/themes/normal_special.tres" id="3_x6jmw"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_j18o6"]
 bg_color = Color(0.77, 0.77, 0.77, 0.7607843)
@@ -218,9 +220,93 @@ VSlider/styles/grabber_area = SubResource("StyleBoxFlat_nyw6u")
 VSlider/styles/grabber_area_highlight = SubResource("StyleBoxFlat_ckmml")
 VSlider/styles/slider = SubResource("StyleBoxFlat_2jpqc")
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_le6wa"]
+content_margin_left = 0.0
+content_margin_top = 0.0
+content_margin_right = 0.0
+content_margin_bottom = 0.0
+bg_color = Color(0.1, 0.1, 0.1, 0.6862745)
+corner_detail = 5
+
 [sub_resource type="LabelSettings" id="LabelSettings_sowkg"]
 font = ExtResource("2_ci5k1")
 font_size = 40
+
+[sub_resource type="GDScript" id="GDScript_cubfm"]
+script/source = "extends Button
+
+var random_list = [
+	'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M',
+	'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z',
+	'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm',
+	'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z',
+	'0', '1', '2', '3', '4', '5', '6', '7', '8', '9'
+]
+
+func _on_pressed() -> void:
+	var l = randi_range(5,15)
+	var str : String = \"\"
+	
+	for ii in l:
+		str += random_list[randi_range(0,len(random_list)-1)]
+	
+	%seed.text = str
+	%seed.emit_signal(\"text_changed\",str)
+"
+
+[sub_resource type="LabelSettings" id="LabelSettings_fajd5"]
+font = ExtResource("1_ci5k1")
+
+[sub_resource type="ButtonGroup" id="ButtonGroup_1sqm0"]
+resource_name = "size"
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_x6jmw"]
+content_margin_left = 0.0
+content_margin_top = 0.0
+content_margin_right = 0.0
+content_margin_bottom = 0.0
+bg_color = Color(0.1, 0.1, 0.1, 0)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.15686275, 0.3764706, 0.46666667, 1)
+corner_radius_top_left = 15
+corner_radius_top_right = 15
+corner_radius_bottom_right = 15
+corner_radius_bottom_left = 15
+corner_detail = 1
+
+[sub_resource type="GDScript" id="GDScript_x6jmw"]
+script/source = "extends TextureRect
+
+@export var b : BaseButton
+
+func _ready() -> void:
+	b.button_group.connect(\"pressed\",Callable(self,\"_size_change\"))
+	
+func _size_change(button:BaseButton) -> void:
+	_on_change(\"\",button.get_meta(\"mapsize\"))
+
+func _on_change(n:String,mapsize:int=16) -> void:
+	n = %seed.text
+	var seed = n.hash()
+	self.texture = await view_summon(seed,mapsize)
+	
+func view_summon(seed:int,mapsize:int) -> ImageTexture: #噪声生成
+	#噪声配置
+	var noise = FastNoiseLite.new()
+	noise.seed = seed
+	noise.noise_type = FastNoiseLite.TYPE_PERLIN
+	#转化为普通图片
+	var i = NoiseTexture2D.new()
+	i.noise = noise
+	i.width = mapsize
+	i.height = mapsize
+	await i.changed #等噪声生成完毕
+	var img = ImageTexture.create_from_image(i.get_image()) #转化为图片
+	return img
+"
 
 [sub_resource type="GDScript" id="GDScript_ci5k1"]
 script/source = "extends Button
@@ -246,6 +332,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_le6wa")
 
 [node name="CenterContainer" type="CenterContainer" parent="." unique_id=1448205510]
 layout_mode = 0
@@ -255,14 +342,104 @@ offset_bottom = 720.0
 [node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer" unique_id=1323512843]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="CenterContainer/VBoxContainer" unique_id=1251940995]
+[node name="Title" type="Label" parent="CenterContainer/VBoxContainer" unique_id=1251940995]
 custom_minimum_size = Vector2(0, 80)
 layout_mode = 2
 text = "地图生成"
 label_settings = SubResource("LabelSettings_sowkg")
+horizontal_alignment = 1
 
-[node name="HBoxContainer" type="HBoxContainer" parent="CenterContainer/VBoxContainer" unique_id=1190842360]
+[node name="Mapname" type="HBoxContainer" parent="CenterContainer/VBoxContainer" unique_id=1168638924]
 layout_mode = 2
+
+[node name="LineEdit" type="LineEdit" parent="CenterContainer/VBoxContainer/Mapname" unique_id=914497165]
+custom_minimum_size = Vector2(200, 36)
+layout_mode = 2
+placeholder_text = "Map Name"
+
+[node name="Seedv" type="HBoxContainer" parent="CenterContainer/VBoxContainer" unique_id=1190842360]
+layout_mode = 2
+
+[node name="seed" type="LineEdit" parent="CenterContainer/VBoxContainer/Seedv" unique_id=1727144821]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(200, 36)
+layout_mode = 2
+placeholder_text = "Seed"
+
+[node name="random" type="Button" parent="CenterContainer/VBoxContainer/Seedv" unique_id=1563099455]
+layout_mode = 2
+text = "🎲"
+script = SubResource("GDScript_cubfm")
+
+[node name="MapSizeTitle" type="Label" parent="CenterContainer/VBoxContainer" unique_id=1697262193]
+layout_mode = 2
+text = "Map Size:"
+label_settings = SubResource("LabelSettings_fajd5")
+
+[node name="MapSize" type="HBoxContainer" parent="CenterContainer/VBoxContainer" unique_id=1913713769]
+layout_mode = 2
+theme = ExtResource("3_x6jmw")
+
+[node name="min" type="Button" parent="CenterContainer/VBoxContainer/MapSize" unique_id=258004977]
+custom_minimum_size = Vector2(85, 36)
+layout_mode = 2
+toggle_mode = true
+button_pressed = true
+button_group = SubResource("ButtonGroup_1sqm0")
+text = "MIN"
+metadata/mapsize = 16
+
+[node name="mid" type="Button" parent="CenterContainer/VBoxContainer/MapSize" unique_id=1752274876]
+custom_minimum_size = Vector2(85, 36)
+layout_mode = 2
+toggle_mode = true
+button_group = SubResource("ButtonGroup_1sqm0")
+text = "MID"
+metadata/mapsize = 32
+
+[node name="max" type="Button" parent="CenterContainer/VBoxContainer/MapSize" unique_id=1878127239]
+custom_minimum_size = Vector2(85, 36)
+layout_mode = 2
+toggle_mode = true
+button_group = SubResource("ButtonGroup_1sqm0")
+text = "MAX"
+metadata/mapsize = 64
+
+[node name="Viewer" type="Panel" parent="CenterContainer/VBoxContainer" unique_id=162605475]
+custom_minimum_size = Vector2(256, 256)
+layout_mode = 2
+theme = ExtResource("3_le6wa")
+theme_override_styles/panel = SubResource("StyleBoxFlat_x6jmw")
+
+[node name="SubViewportContainer" type="SubViewportContainer" parent="CenterContainer/VBoxContainer/Viewer" unique_id=855117448]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.0625
+anchor_top = 0.0625
+anchor_right = 0.9375
+anchor_bottom = 0.9375
+grow_horizontal = 2
+grow_vertical = 2
+metadata/_edit_use_anchors_ = true
+
+[node name="Show" type="TextureRect" parent="CenterContainer/VBoxContainer/Viewer" unique_id=565710352 node_paths=PackedStringArray("b")]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.076045625
+anchor_top = 0.06640625
+anchor_right = 0.92775667
+anchor_bottom = 0.94140625
+grow_horizontal = 2
+grow_vertical = 2
+expand_mode = 1
+script = SubResource("GDScript_x6jmw")
+b = NodePath("../../MapSize/min")
+metadata/_edit_use_anchors_ = true
+
+[node name="Button" type="Button" parent="CenterContainer/VBoxContainer" unique_id=746226680]
+custom_minimum_size = Vector2(256, 48)
+layout_mode = 2
+text = "Gen"
 
 [node name="Button" type="Button" parent="." unique_id=1771888705]
 custom_minimum_size = Vector2(256, 48)
@@ -278,4 +455,6 @@ text = "Back"
 script = SubResource("GDScript_ci5k1")
 metadata/_edit_use_anchors_ = true
 
+[connection signal="text_changed" from="CenterContainer/VBoxContainer/Seedv/seed" to="CenterContainer/VBoxContainer/Viewer/Show" method="_on_change"]
+[connection signal="pressed" from="CenterContainer/VBoxContainer/Seedv/random" to="CenterContainer/VBoxContainer/Seedv/random" method="_on_pressed"]
 [connection signal="pressed" from="Button" to="Button" method="_on_pressed"]
