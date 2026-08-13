@@ -4,6 +4,7 @@
 [ext_resource type="FontFile" uid="uid://cxcciuexnp8xg" path="res://assets/fonts/HarmonyOS_Sans_SC_Black.ttf" id="2_ci5k1"]
 [ext_resource type="Theme" uid="uid://c35suisqbybdf" path="res://assets/themes/normal.tres" id="3_le6wa"]
 [ext_resource type="Theme" uid="uid://dfq7fi8qcyimt" path="res://assets/themes/normal_special.tres" id="3_x6jmw"]
+[ext_resource type="Script" uid="uid://b4u8iknypwduw" path="res://scripts/menu/viewer.gd" id="5_h0mnl"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_j18o6"]
 bg_color = Color(0.77, 0.77, 0.77, 0.7607843)
@@ -245,13 +246,13 @@ var random_list = [
 
 func _on_pressed() -> void:
 	var l = randi_range(5,15)
-	var seed : String = \"\"
+	var seed_text : String = \"\"
 	
 	for ii in l:
-		seed += random_list[randi_range(0,len(random_list)-1)]
+		seed_text += random_list[randi_range(0,len(random_list)-1)]
 	
-	%seed.text = seed
-	%seed.emit_signal(\"text_changed\",seed)
+	%seed.text = seed_text
+	%seed.emit_signal(\"text_changed\",seed_text)
 "
 
 [sub_resource type="LabelSettings" id="LabelSettings_fajd5"]
@@ -277,48 +278,12 @@ corner_radius_bottom_right = 15
 corner_radius_bottom_left = 15
 corner_detail = 1
 
-[sub_resource type="GDScript" id="GDScript_x6jmw"]
-script/source = "extends TextureRect
+[sub_resource type="GDScript" id="GDScript_h0mnl"]
+script/source = "extends VBoxContainer
 
-@export var b : BaseButton
-@onready var button_group = b.button_group
 
-func _ready() -> void:
-	button_group.connect(\"pressed\",Callable(self,\"_on_change\"))
-
-func _on_change(_gun_mu) -> void:
-	var t = %seed.text
-	var mapseed = t.hash()
-	var mapsize = button_group.get_pressed_button().get_meta(\"mapsize\")
-	
-	self.texture = await view_summon(mapseed,mapsize)
-	
-func view_summon(mapseed:int,mapsize:int) -> ImageTexture: #噪声生成
-	#噪声配置
-	var noise = FastNoiseLite.new()
-	noise.seed = mapseed
-	noise.noise_type = FastNoiseLite.TYPE_PERLIN
-	#转化为普通图片
-	var i = NoiseTexture2D.new()
-	i.noise = noise
-	i.width = mapsize
-	i.height = mapsize
-	await i.changed #等噪声生成完毕
-	var img = ImageTexture.create_from_image(i.get_image()) #转化为图片
-	#判定区域 (mapsize x mapsize)
-	var mimg = img.get_image() #取出image
-	mimg.convert(Image.FORMAT_RGB8) #噪声出来的是灰度图
-	for y in mapsize:
-		for x in mapsize:
-			var p = mimg.get_pixel(x,y)
-			if p.v >=0.3:
-				p = Color(\"#F2BF7C\")
-				mimg.set_pixel(x,y,p)
-			else:
-				p = Color(\"#3369CC\")
-				mimg.set_pixel(x,y,p)
-	img.set_image(mimg)
-	return img
+func _toggle(v:bool) -> void:
+	self.visible = v
 "
 
 [sub_resource type="GDScript" id="GDScript_ci5k1"]
@@ -351,79 +316,86 @@ layout_mode = 0
 offset_right = 1280.0
 offset_bottom = 720.0
 
-[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer" unique_id=1323512843]
+[node name="HBoxContainer" type="HBoxContainer" parent="CenterContainer" unique_id=630413395]
 layout_mode = 2
 
-[node name="Title" type="Label" parent="CenterContainer/VBoxContainer" unique_id=1251940995]
+[node name="body" type="VBoxContainer" parent="CenterContainer/HBoxContainer" unique_id=1323512843]
+layout_mode = 2
+
+[node name="Title" type="Label" parent="CenterContainer/HBoxContainer/body" unique_id=1251940995]
 custom_minimum_size = Vector2(0, 80)
 layout_mode = 2
 text = "地图生成"
 label_settings = SubResource("LabelSettings_sowkg")
 horizontal_alignment = 1
 
-[node name="Mapname" type="HBoxContainer" parent="CenterContainer/VBoxContainer" unique_id=1168638924]
+[node name="Mapname" type="HBoxContainer" parent="CenterContainer/HBoxContainer/body" unique_id=1168638924]
 layout_mode = 2
 
-[node name="LineEdit" type="LineEdit" parent="CenterContainer/VBoxContainer/Mapname" unique_id=914497165]
+[node name="mapname" type="LineEdit" parent="CenterContainer/HBoxContainer/body/Mapname" unique_id=914497165]
 custom_minimum_size = Vector2(200, 36)
 layout_mode = 2
 placeholder_text = "Map Name"
 
-[node name="Seedv" type="HBoxContainer" parent="CenterContainer/VBoxContainer" unique_id=1190842360]
+[node name="Seedv" type="HBoxContainer" parent="CenterContainer/HBoxContainer/body" unique_id=1190842360]
 layout_mode = 2
 
-[node name="seed" type="LineEdit" parent="CenterContainer/VBoxContainer/Seedv" unique_id=1727144821]
+[node name="seed" type="LineEdit" parent="CenterContainer/HBoxContainer/body/Seedv" unique_id=1727144821]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(200, 36)
 layout_mode = 2
 placeholder_text = "Seed"
 
-[node name="random" type="Button" parent="CenterContainer/VBoxContainer/Seedv" unique_id=1563099455]
+[node name="random" type="Button" parent="CenterContainer/HBoxContainer/body/Seedv" unique_id=1563099455]
 layout_mode = 2
 text = "🎲"
 script = SubResource("GDScript_cubfm")
 
-[node name="MapSizeTitle" type="Label" parent="CenterContainer/VBoxContainer" unique_id=1697262193]
+[node name="MapSizeTitle" type="Label" parent="CenterContainer/HBoxContainer/body" unique_id=1697262193]
 layout_mode = 2
 text = "Map Size:"
 label_settings = SubResource("LabelSettings_fajd5")
 
-[node name="MapSize" type="HBoxContainer" parent="CenterContainer/VBoxContainer" unique_id=1913713769]
+[node name="MapSize" type="HBoxContainer" parent="CenterContainer/HBoxContainer/body" unique_id=1913713769]
 layout_mode = 2
 theme = ExtResource("3_x6jmw")
 
-[node name="min" type="Button" parent="CenterContainer/VBoxContainer/MapSize" unique_id=258004977]
+[node name="min" type="Button" parent="CenterContainer/HBoxContainer/body/MapSize" unique_id=258004977]
 custom_minimum_size = Vector2(85, 36)
 layout_mode = 2
 toggle_mode = true
 button_pressed = true
 button_group = SubResource("ButtonGroup_1sqm0")
 text = "MIN"
-metadata/mapsize = 16
+metadata/mapsize = 64
 
-[node name="mid" type="Button" parent="CenterContainer/VBoxContainer/MapSize" unique_id=1752274876]
+[node name="mid" type="Button" parent="CenterContainer/HBoxContainer/body/MapSize" unique_id=1752274876]
 custom_minimum_size = Vector2(85, 36)
 layout_mode = 2
 toggle_mode = true
 button_group = SubResource("ButtonGroup_1sqm0")
 text = "MID"
-metadata/mapsize = 32
+metadata/mapsize = 128
 
-[node name="max" type="Button" parent="CenterContainer/VBoxContainer/MapSize" unique_id=1878127239]
+[node name="max" type="Button" parent="CenterContainer/HBoxContainer/body/MapSize" unique_id=1878127239]
 custom_minimum_size = Vector2(85, 36)
 layout_mode = 2
 toggle_mode = true
 button_group = SubResource("ButtonGroup_1sqm0")
 text = "MAX"
-metadata/mapsize = 64
+metadata/mapsize = 256
 
-[node name="Viewer" type="Panel" parent="CenterContainer/VBoxContainer" unique_id=162605475]
+[node name="CheckButton" type="CheckButton" parent="CenterContainer/HBoxContainer/body" unique_id=1519776087]
+layout_mode = 2
+text = "advace opsion"
+
+[node name="Viewer" type="Panel" parent="CenterContainer/HBoxContainer/body" unique_id=162605475]
 custom_minimum_size = Vector2(256, 256)
 layout_mode = 2
 theme = ExtResource("3_le6wa")
 theme_override_styles/panel = SubResource("StyleBoxFlat_x6jmw")
 
-[node name="SubViewportContainer" type="SubViewportContainer" parent="CenterContainer/VBoxContainer/Viewer" unique_id=855117448]
+[node name="SubViewportContainer" type="SubViewportContainer" parent="CenterContainer/HBoxContainer/body/Viewer" unique_id=855117448]
 layout_mode = 1
 anchors_preset = -1
 anchor_left = 0.0625
@@ -434,7 +406,7 @@ grow_horizontal = 2
 grow_vertical = 2
 metadata/_edit_use_anchors_ = true
 
-[node name="Show" type="TextureRect" parent="CenterContainer/VBoxContainer/Viewer" unique_id=565710352 node_paths=PackedStringArray("b")]
+[node name="Show" type="TextureRect" parent="CenterContainer/HBoxContainer/body/Viewer" unique_id=565710352 node_paths=PackedStringArray("b")]
 texture_filter = 1
 layout_mode = 1
 anchors_preset = -1
@@ -445,16 +417,33 @@ anchor_bottom = 0.94140625
 grow_horizontal = 2
 grow_vertical = 2
 expand_mode = 1
-script = SubResource("GDScript_x6jmw")
+script = ExtResource("5_h0mnl")
 b = NodePath("../../MapSize/min")
 metadata/_edit_use_anchors_ = true
 
-[node name="Button" type="Button" parent="CenterContainer/VBoxContainer" unique_id=746226680]
+[node name="Gen" type="Button" parent="CenterContainer/HBoxContainer/body" unique_id=746226680]
 custom_minimum_size = Vector2(256, 48)
 layout_mode = 2
 text = "Gen"
 
-[node name="Button" type="Button" parent="." unique_id=1771888705]
+[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer/HBoxContainer" unique_id=241968158]
+layout_mode = 2
+script = SubResource("GDScript_h0mnl")
+
+[node name="Label" type="Label" parent="CenterContainer/HBoxContainer/VBoxContainer" unique_id=772201097]
+layout_mode = 2
+text = "高级选项:"
+
+[node name="map_width" type="LineEdit" parent="CenterContainer/HBoxContainer/VBoxContainer" unique_id=1060621703]
+custom_minimum_size = Vector2(150, 0)
+layout_mode = 2
+placeholder_text = "MapWidth"
+
+[node name="map_height" type="LineEdit" parent="CenterContainer/HBoxContainer/VBoxContainer" unique_id=1056004668]
+layout_mode = 2
+placeholder_text = "MapHeight"
+
+[node name="back" type="Button" parent="." unique_id=1771888705]
 custom_minimum_size = Vector2(256, 48)
 layout_mode = 1
 anchors_preset = -1
@@ -468,6 +457,7 @@ text = "Back"
 script = SubResource("GDScript_ci5k1")
 metadata/_edit_use_anchors_ = true
 
-[connection signal="text_changed" from="CenterContainer/VBoxContainer/Seedv/seed" to="CenterContainer/VBoxContainer/Viewer/Show" method="_on_change"]
-[connection signal="pressed" from="CenterContainer/VBoxContainer/Seedv/random" to="CenterContainer/VBoxContainer/Seedv/random" method="_on_pressed"]
-[connection signal="pressed" from="Button" to="Button" method="_on_pressed"]
+[connection signal="text_changed" from="CenterContainer/HBoxContainer/body/Seedv/seed" to="CenterContainer/HBoxContainer/body/Viewer/Show" method="_on_change"]
+[connection signal="pressed" from="CenterContainer/HBoxContainer/body/Seedv/random" to="CenterContainer/HBoxContainer/body/Seedv/random" method="_on_pressed"]
+[connection signal="toggled" from="CenterContainer/HBoxContainer/body/CheckButton" to="CenterContainer/HBoxContainer/VBoxContainer" method="_toggle"]
+[connection signal="pressed" from="back" to="back" method="_on_pressed"]
