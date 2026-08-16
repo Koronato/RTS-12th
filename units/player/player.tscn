@@ -4,9 +4,15 @@
 [ext_resource type="Script" uid="uid://bg45ncwnn2amb" path="res://units/player/player.gd" id="2_6aur8"]
 [ext_resource type="PackedScene" uid="uid://bwm0skyuaehbc" path="res://units/public/fire_common/fire_common.tscn" id="2_wvplw"]
 
-[node name="Node2D" type="Sprite2D" unique_id=1587485361]
-texture = ExtResource("1_ylfgq")
+[sub_resource type="CircleShape2D" id="CircleShape2D_fajd5"]
+radius = 35.057095
+
+[node name="Node2D" type="CharacterBody2D" unique_id=306415305]
+motion_mode = 1
 script = ExtResource("2_6aur8")
+
+[node name="body" type="Sprite2D" parent="." unique_id=963731507]
+texture = ExtResource("1_ylfgq")
 
 [node name="fire_r" parent="." unique_id=1787141429 instance=ExtResource("2_wvplw")]
 z_index = -1
@@ -17,3 +23,6 @@ scale = Vector2(0.25, 0.25)
 z_index = -1
 position = Vector2(-15, 21)
 scale = Vector2(0.25, 0.25)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1793054805]
+shape = SubResource("CircleShape2D_fajd5")
