@@ -1,0 +1,14 @@
+[gd_scene format=3 uid="uid://bwm0skyuaehbc"]
+
+[ext_resource type="Texture2D" uid="uid://by76eao720lhw" path="res://units/public/fire_common/circle.svg" id="1_seue8"]
+[ext_resource type="Script" uid="uid://b7xl6pl1oc2yb" path="res://units/public/fire_common/fire_common.gd" id="2_xwmvp"]
+
+[node name="Sprite2D" type="Sprite2D" unique_id=1787141429]
+self_modulate = Color(1, 0.7764706, 0.20784314, 1)
+texture = ExtResource("1_seue8")
+script = ExtResource("2_xwmvp")
+
+[node name="inner_flame" type="Sprite2D" parent="." unique_id=1142229955]
+position = Vector2(-7.1525574e-07, -7.1525574e-07)
+scale = Vector2(0.74999994, 0.74999994)
+texture = ExtResource("1_seue8")

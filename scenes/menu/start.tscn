@@ -387,7 +387,7 @@ metadata/mapsize = 256
 
 [node name="CheckButton" type="CheckButton" parent="CenterContainer/HBoxContainer/body" unique_id=1519776087]
 layout_mode = 2
-text = "advace opsion"
+text = "Advanced Options"
 
 [node name="Viewer" type="Panel" parent="CenterContainer/HBoxContainer/body" unique_id=162605475]
 custom_minimum_size = Vector2(256, 256)
@@ -426,20 +426,21 @@ custom_minimum_size = Vector2(256, 48)
 layout_mode = 2
 text = "Gen"
 
-[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer/HBoxContainer" unique_id=241968158]
+[node name="AdvancedOptions" type="VBoxContainer" parent="CenterContainer/HBoxContainer" unique_id=241968158]
+visible = false
 layout_mode = 2
 script = SubResource("GDScript_h0mnl")
 
-[node name="Label" type="Label" parent="CenterContainer/HBoxContainer/VBoxContainer" unique_id=772201097]
+[node name="Label" type="Label" parent="CenterContainer/HBoxContainer/AdvancedOptions" unique_id=772201097]
 layout_mode = 2
 text = "高级选项:"
 
-[node name="map_width" type="LineEdit" parent="CenterContainer/HBoxContainer/VBoxContainer" unique_id=1060621703]
+[node name="map_width" type="LineEdit" parent="CenterContainer/HBoxContainer/AdvancedOptions" unique_id=1060621703]
 custom_minimum_size = Vector2(150, 0)
 layout_mode = 2
 placeholder_text = "MapWidth"
 
-[node name="map_height" type="LineEdit" parent="CenterContainer/HBoxContainer/VBoxContainer" unique_id=1056004668]
+[node name="map_height" type="LineEdit" parent="CenterContainer/HBoxContainer/AdvancedOptions" unique_id=1056004668]
 layout_mode = 2
 placeholder_text = "MapHeight"
 
@@ -459,5 +460,5 @@ metadata/_edit_use_anchors_ = true
 
 [connection signal="text_changed" from="CenterContainer/HBoxContainer/body/Seedv/seed" to="CenterContainer/HBoxContainer/body/Viewer/Show" method="_on_change"]
 [connection signal="pressed" from="CenterContainer/HBoxContainer/body/Seedv/random" to="CenterContainer/HBoxContainer/body/Seedv/random" method="_on_pressed"]
-[connection signal="toggled" from="CenterContainer/HBoxContainer/body/CheckButton" to="CenterContainer/HBoxContainer/VBoxContainer" method="_toggle"]
+[connection signal="toggled" from="CenterContainer/HBoxContainer/body/CheckButton" to="CenterContainer/HBoxContainer/AdvancedOptions" method="_toggle"]
 [connection signal="pressed" from="back" to="back" method="_on_pressed"]

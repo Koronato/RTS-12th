@@ -5,6 +5,8 @@ extends TextureRect
 
 func _ready() -> void:
 	button_group.connect("pressed",Callable(self,"_on_change"))
+	
+	self.texture = await view_summon(randi(),64)
 
 func _on_change(_gun_mu) -> void:
 	var t = %seed.text

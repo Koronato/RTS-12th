@@ -146,7 +146,7 @@ offset_right = 256.0
 offset_bottom = 304.0
 toggle_mode = true
 button_group = SubResource("ButtonGroup_con2f")
-text = "TEXT!!"
+text = "START"
 
 [node name="2" type="Button" parent="UI/CenterContainer/HBoxContainer/Main/Menu" unique_id=391294560]
 layout_mode = 0
