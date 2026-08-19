@@ -2,7 +2,7 @@ extends CharacterBody2D
 
 @export var speed : float = 100
 @export var MaxSpeed : float = 1200
-@export var friction : float = 0.9
+@export var friction : float = 0.95
 @export var camera : Camera2D
 
 var ix : float = 0.0
@@ -27,9 +27,9 @@ func _physics_process(delta: float) -> void:
 	#-简陋摩擦力实现
 	ix *= friction
 	iy *= friction
-	if ix < 0.001 and ix > -0.001:
+	if ix < 0.01 and ix > -0.01:
 		ix = 0
-	if iy < 0.001 and iy > -0.001:
+	if iy < 0.01 and iy > -0.01:
 		iy = 0
 	#加上
 	self.velocity = Vector2(ix,iy)

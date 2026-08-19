@@ -278,6 +278,20 @@ corner_radius_bottom_right = 15
 corner_radius_bottom_left = 15
 corner_detail = 1
 
+[sub_resource type="GDScript" id="GDScript_iut6q"]
+script/source = "extends Button
+
+func _on_pressed() -> void:
+	###即将到来 非正方形地图
+	Global.map_height = %Show.mapsize
+	Global.map_height = %Show.mapsize
+	
+	var t = %seed.text
+	Global.map_seed = t.hash()
+	
+	SceneChanger.goto(\"uid://525sleynswan\")
+"
+
 [sub_resource type="GDScript" id="GDScript_h0mnl"]
 script/source = "extends VBoxContainer
 
@@ -407,6 +421,7 @@ grow_vertical = 2
 metadata/_edit_use_anchors_ = true
 
 [node name="Show" type="TextureRect" parent="CenterContainer/HBoxContainer/body/Viewer" unique_id=565710352 node_paths=PackedStringArray("b")]
+unique_name_in_owner = true
 texture_filter = 1
 layout_mode = 1
 anchors_preset = -1
@@ -425,6 +440,7 @@ metadata/_edit_use_anchors_ = true
 custom_minimum_size = Vector2(256, 48)
 layout_mode = 2
 text = "Gen"
+script = SubResource("GDScript_iut6q")
 
 [node name="AdvancedOptions" type="VBoxContainer" parent="CenterContainer/HBoxContainer" unique_id=241968158]
 visible = false
@@ -461,4 +477,5 @@ metadata/_edit_use_anchors_ = true
 [connection signal="text_changed" from="CenterContainer/HBoxContainer/body/Seedv/seed" to="CenterContainer/HBoxContainer/body/Viewer/Show" method="_on_change"]
 [connection signal="pressed" from="CenterContainer/HBoxContainer/body/Seedv/random" to="CenterContainer/HBoxContainer/body/Seedv/random" method="_on_pressed"]
 [connection signal="toggled" from="CenterContainer/HBoxContainer/body/CheckButton" to="CenterContainer/HBoxContainer/AdvancedOptions" method="_toggle"]
+[connection signal="pressed" from="CenterContainer/HBoxContainer/body/Gen" to="CenterContainer/HBoxContainer/body/Gen" method="_on_pressed"]
 [connection signal="pressed" from="back" to="back" method="_on_pressed"]

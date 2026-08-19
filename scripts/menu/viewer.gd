@@ -2,6 +2,7 @@ extends TextureRect
 
 @export var b : BaseButton
 @onready var button_group = b.button_group
+@export var mapsize : int
 
 func _ready() -> void:
 	button_group.connect("pressed",Callable(self,"_on_change"))
@@ -11,7 +12,7 @@ func _ready() -> void:
 func _on_change(_gun_mu) -> void:
 	var t = %seed.text
 	var mapseed = t.hash()
-	var mapsize = button_group.get_pressed_button().get_meta("mapsize")
+	mapsize = button_group.get_pressed_button().get_meta("mapsize")
 	
 	self.texture = await view_summon(mapseed,mapsize)
 	
