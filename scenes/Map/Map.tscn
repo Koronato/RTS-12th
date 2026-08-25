@@ -1,8 +1,9 @@
 [gd_scene format=3 uid="uid://525sleynswan"]
 
-[ext_resource type="Script" uid="uid://c705mr7ljdknp" path="res://scenes/Map/map.gd" id="1_iut6q"]
-[ext_resource type="Script" uid="uid://bwwq8arm1f8mg" path="res://scripts/world/WorldGen.gd" id="2_n3hww"]
+[ext_resource type="Script" uid="uid://bwwq8arm1f8mg" path="res://scripts/world/MapGen.gd" id="1_iut6q"]
+[ext_resource type="Script" uid="uid://c705mr7ljdknp" path="res://scenes/Map/map.gd" id="1_n3hww"]
 [ext_resource type="PackedScene" uid="uid://ci0ccqxdtos2s" path="res://units/player/player.tscn" id="3_hb1in"]
+[ext_resource type="TileSet" uid="uid://cve4hr8mowni0" path="res://assets/sets/normal_tile_set.tres" id="3_iut6q"]
 
 [sub_resource type="Gradient" id="Gradient_n3hww"]
 colors = PackedColorArray(0.27, 0.1377, 0.19723497, 1, 0.14114998, 0.1305, 0.45, 1)
@@ -48,11 +49,10 @@ func _ready() -> void:
 "
 
 [node name="Map" type="Node2D" unique_id=1012830368]
-script = ExtResource("1_iut6q")
+script = ExtResource("1_n3hww")
 
-[node name="WorldGenerator" type="Node" parent="." unique_id=1133837162]
-unique_name_in_owner = true
-script = ExtResource("2_n3hww")
+[node name="MapGen" type="Node" parent="." unique_id=1091419365]
+script = ExtResource("1_iut6q")
 metadata/_custom_type_script = "uid://bwwq8arm1f8mg"
 
 [node name="background" type="TextureRect" parent="." unique_id=1668544873]
@@ -133,3 +133,10 @@ shape = SubResource("WorldBoundaryShape2D_fajd5")
 offset_left = -6.920395
 offset_top = -141.47504
 offset_bottom = 139.83649
+rotation = -0.39618975
+
+[node name="Layers" type="Node" parent="." unique_id=1722663420]
+
+[node name="Layer0" type="TileMapLayer" parent="Layers" unique_id=812393768]
+texture_filter = 1
+tile_set = ExtResource("3_iut6q")
