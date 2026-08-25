@@ -5,7 +5,7 @@
 [ext_resource type="PackedScene" uid="uid://bwm0skyuaehbc" path="res://units/public/fire_common/fire_common.tscn" id="2_wvplw"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_fajd5"]
-radius = 35.057095
+radius = 30.0
 
 [node name="Node2D" type="CharacterBody2D" unique_id=306415305]
 motion_mode = 1

@@ -10,7 +10,7 @@ class_name MapGen
 @export var noise_frequency:float
 @export var custom_pic:Image
 @export var WaSpro:float = 0.5 # == Water and Soil proprotion
-@export var TMP:Array #to compatible , arr has not base object type , but it normaly use TileMapLayer
+@export var TMP:Array[TileMapLayer]
 
 #global
 @export var map_pic:Image
@@ -71,13 +71,20 @@ func _main():
 	for x in map_width:
 		for y in map_height:
 			var deepth = v0[step]
-			var coord = CubeCoord.cube_to_cell(CubeCoord.local_to_cube(Vector2(x,y)))
-			coord.y = -coord.y
-			coord.x = -coord.x
+			var coord = CubeCoord.cube_to_cell(CubeCoord.local_to_cube(Vector2(x,-y)))
+			coord.y = coord.y
+			coord.x = coord.x
 			TMP[0].set_cell(coord,
 				0,
 				tile_decide(deepth),)
-			print("set %v" % coord)
+			#print("set %v" % coord)
 			step += 1
 	
 	map_gen_done.emit()
+func _debug(s:int):
+	status = "DEBUG"
+	for x in range(s):
+		for y in range(s):
+			var coord = CubeCoord.cube_to_cell(CubeCoord.local_to_cube(Vector2(x,-y)))
+			TMP[0].set_cell(coord,1,Vector2i(0,0))
+			
