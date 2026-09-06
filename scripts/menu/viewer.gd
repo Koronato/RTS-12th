@@ -14,7 +14,7 @@ func _ready() -> void:
 
 func _on_change(_gun_mu) -> void:
 	var t = %seed.text
-	var map_seed = t.hash()
+	map_seed = t.hash()
 	mapsize = button_group.get_pressed_button().get_meta("mapsize")
 	
 	self.texture = await view_summon(map_seed,mapsize)

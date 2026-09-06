@@ -283,10 +283,11 @@ script/source = "extends Button
 
 func _on_pressed() -> void:
 	###即将到来 非正方形地图
-	Global.map_height = %Show.mapsize
-	Global.map_width = %Show.mapsize
-	Global.noise_frequency = %Show.frequency
-	Global.map_seed = %Show.map_seed
+	Global.map_options
+	Global.map_options.map_height = %Show.mapsize
+	Global.map_options.map_width = %Show.mapsize
+	Global.map_options.noise_frequency = %Show.frequency
+	Global.map_options.map_seed = %Show.map_seed
 	
 	SceneChanger.goto(\"uid://525sleynswan\")
 "
