@@ -160,7 +160,7 @@ static func cube_round(coord:Vector3) -> Vector3i:
 	return coordi
 	
 #画线方法 NOTICE 暂时未实现偏移 因此可能出现抖动
-static func get_line_raw(from_point:Vector3i,to_point:Vector3i,epsilon:bool=true) -> Array[Vector3]:
+static func get_line_raw(from_point:Vector3i,to_point:Vector3i,_epsilon:bool=true) -> Array[Vector3]:
 	var result:Array[Vector3] = []
 	var dist = cube_distance(from_point,to_point)
 	if dist == 0:

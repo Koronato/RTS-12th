@@ -1,5 +1,14 @@
 [gd_scene format=3 uid="uid://qgccs2w55ct4"]
 
-[node name="Client" type="Node2D" unique_id=453126563]
+[ext_resource type="Script" uid="uid://sdisx31uyqgc" path="res://scripts/client/Client.gd" id="1_qqd53"]
+
+[node name="Client" type="Node2D" unique_id=226429830]
+script = ExtResource("1_qqd53")
+metadata/_custom_type_script = "uid://sdisx31uyqgc"
 
 [node name="Layers" type="Node" parent="." unique_id=1045639071]
+
+[node name="Borders" type="Node" parent="." unique_id=1159841242]
+
+[node name="Camera" type="Camera2D" parent="." unique_id=1653968133]
+unique_name_in_owner = true
