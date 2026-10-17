@@ -1,0 +1,86 @@
+[gd_scene format=3 uid="uid://dehh84k84jj2c"]
+
+[ext_resource type="Script" uid="uid://bk3i70hpmtbl8" path="res://scripts/autoload/ControlPanel.gd" id="1_4tq24"]
+[ext_resource type="Theme" uid="uid://c35suisqbybdf" path="res://assets/themes/normal.tres" id="1_u68yh"]
+[ext_resource type="FontFile" uid="uid://dh5wfliui86j4" path="res://assets/fonts/VictorMono-Medium-12.otf" id="3_x0j0y"]
+
+[sub_resource type="GDScript" id="GDScript_wvhbo"]
+script/source = "extends Button
+
+func _on_pressed() -> void:
+	push_warning(\"aaabbcc\")
+	print(\"normal_message\")
+	push_error(\"ddeeff\")
+"
+
+[node name="Main" type="Panel" unique_id=1093508592]
+z_index = 1000
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_bottom = -464.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_u68yh")
+script = ExtResource("1_4tq24")
+
+[node name="Title" type="Label" parent="." unique_id=794617331]
+layout_mode = 0
+offset_left = 8.0
+offset_top = 8.0
+offset_right = 104.0
+offset_bottom = 27.0
+text = "Control Panel"
+
+[node name="HSplitContainer" type="HSplitContainer" parent="." unique_id=591021758]
+layout_mode = 0
+offset_left = 8.0
+offset_top = 32.0
+offset_right = 1272.0
+offset_bottom = 192.0
+
+[node name="Panel" type="Panel" parent="HSplitContainer" unique_id=108632079]
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+
+[node name="LogOut" type="RichTextLabel" parent="HSplitContainer/Panel" unique_id=1451137860]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/normal_font = ExtResource("3_x0j0y")
+bbcode_enabled = true
+scroll_following = true
+
+[node name="Functions" type="Panel" parent="HSplitContainer" unique_id=998021737]
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+
+[node name="Button" type="Button" parent="HSplitContainer/Functions" unique_id=634147793]
+layout_mode = 0
+offset_left = 8.0
+offset_top = 8.0
+offset_right = 85.0
+offset_bottom = 40.0
+text = "Pop log"
+script = SubResource("GDScript_wvhbo")
+
+[node name="cmd" type="LineEdit" parent="." unique_id=449155791]
+layout_mode = 0
+offset_left = 8.0
+offset_top = 208.0
+offset_right = 1208.0
+offset_bottom = 235.0
+placeholder_text = "Enter command"
+
+[node name="send" type="Button" parent="cmd" unique_id=45702931]
+layout_mode = 0
+offset_left = 1208.0
+offset_right = 1264.0
+offset_bottom = 27.0
+text = "Send"
+
+[connection signal="pressed" from="HSplitContainer/Functions/Button" to="HSplitContainer/Functions/Button" method="_on_pressed"]

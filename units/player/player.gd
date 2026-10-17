@@ -12,13 +12,13 @@ var iy : float = 0.0
 func _physics_process(delta: float) -> void:
 	#---玩家移动---#
 	#判定输入
-	if Input.is_action_pressed("player_forward"):
+	if Input.is_action_pressed("up"):
 		iy -= speed
-	if Input.is_action_pressed("player_back"):
+	if Input.is_action_pressed("down"):
 		iy += speed
-	if Input.is_action_pressed("player_right"):
+	if Input.is_action_pressed("right"):
 		ix += speed
-	if Input.is_action_pressed("player_left"):
+	if Input.is_action_pressed("left"):
 		ix -= speed
 	#限制范围
 	ix = clampf(ix,-1*MaxSpeed,MaxSpeed)

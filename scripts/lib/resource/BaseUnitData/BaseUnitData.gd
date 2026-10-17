@@ -5,3 +5,4 @@ class_name BaseUnitData
 @export var rotation : float
 @export var speed : float
 @export var max_speed : float
+@export var uid : int = -1
