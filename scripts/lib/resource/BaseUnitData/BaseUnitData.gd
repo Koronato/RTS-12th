@@ -6,3 +6,6 @@ class_name BaseUnitData
 @export var speed : float
 @export var max_speed : float
 @export var uid : int = -1
+
+func _cover()->void:
+	pass

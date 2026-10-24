@@ -6,9 +6,9 @@ var Conn = LocalConn.new()
 
 func _ready() -> void:
 	#服务器初始化
+	add_child(server,true)
 	server.map_options = Global.map_options
 	server.server_init()
-	add_child(server,true)
 	await server.init_done
 	#连接初始化
 	Conn.server = server

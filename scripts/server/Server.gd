@@ -11,8 +11,12 @@ class_name Server
 ##options
 @export var map_options : MapOptions = MapOptions.new()
 
-##temp
+##values
 var _uid : int = 0
+var _uid_lock = Mutex.new()
+
+var peer
+var server_multiplayer
 
 @export var cmd_list = {
 	get_map="get_map",
@@ -37,9 +41,20 @@ func server_init() -> void:
 	border = CubeCoord.cube_to_local(
 				CubeCoord.cell_to_cube(
 					Vector2i(map_options.map_width,map_options.map_height)))
+					
+	await _start_server()
 	init_done.emit()
 
 ##Chores
+func _start_server() -> void:
+	peer = ENetMultiplayerPeer.new()
+	server_multiplayer = multiplayer.create_default_interface()
+	peer.create_server(25564)
+	get_tree().set_multiplayer(server_multiplayer,self.get_path()) #独立mutiplayer以适应内置服务端
+	
+	print("Server started")
+	print("Server id:%s",multiplayer.get_unique_id())
+
 func receive(command:String,args:Array=[]):
 	match command:
 		cmd_list.reg_player:
@@ -54,10 +69,9 @@ func receive(command:String,args:Array=[]):
 			return
 
 func get_uid() -> int:
-	var _lock = Mutex.new()
-	_lock.lock()
+	_uid_lock.lock()
 	_uid += 1
-	_lock.unlock()
+	_uid_lock.unlock()
 	return _uid #直接获取_uid可能会导致不同步问题,不推荐
 	
 func reg_unit(data:BaseUnitData) -> BaseUnitData:
@@ -73,7 +87,14 @@ func get_border() -> Vector2:
 	return border
 	
 ##Player
-func reg_player(player_name:String) -> PlayerData:
+func login(player_name:String) -> Dictionary:
+	var data = {
+		is_succeed = false
+	}
+	
+	return data
+
+func reg_player(player_name:String) -> PlayerData: #此函数应用于注册玩家单位,改造中
 	if player_list.has(player_name):
 		#查重
 		#...

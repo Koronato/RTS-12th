@@ -5,10 +5,13 @@ class_name Client
 @export var player_data : PlayerData = PlayerData.new()
 @export var map_layer : Array = []
 @export var tile_set = load("uid://dxd5dltwag3u0")
+var peer
+var client_multiplayer
 
 func _ready() -> void:
 	Conn = $/root/Game.Conn
 	##连接
+	await _start_client()
 	#登录
 	player_data = Conn.send("reg_player",[Global.player_name])
 	if player_data.uid == -1:
@@ -32,3 +35,12 @@ func _ready() -> void:
 	#玩家设置
 	%Camera.move = true #解放摄像机
 	
+func _start_client() -> void:
+	peer = ENetMultiplayerPeer.new()
+	client_multiplayer = MultiplayerAPI.create_default_interface()
+	peer.create_client("127.0.0.1",25564)
+	client_multiplayer.multiplayer_peer = peer
+	get_tree().set_multiplayer(client_multiplayer,self.get_path()) #独立mutiplayer以适应内置服务端
+	
+	print("Client started")
+	print("Client peer id: %s",multiplayer.get_unique_id())
